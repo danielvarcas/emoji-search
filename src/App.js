@@ -23,7 +23,7 @@ class App extends Component {
   searchEmojis = (event) => {
     const searchTerm = event.target.value;
     if (searchTerm) {
-      const matches = emojiList.filter(emoji => emoji.keywords.split(' ').includes(searchTerm))
+      const matches = emojiList.filter(emoji => emoji.keywords.includes(searchTerm))
       const matchedEmojis = matches.map(emoji => emoji.symbol);
       this.setState({
         matchedEmojis: matchedEmojis
