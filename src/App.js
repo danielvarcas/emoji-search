@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SearchBar from './components/SearchBar';
+import EmojiDisplay from './components/EmojiDisplay'
+import emojiList from './data/emojiList.json';
 
 class App extends Component {
+  state = {
+    matchedEmojis: emojiList.map(emoji => emoji.symbol)
+  }
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1>emoji search</h1>
         </header>
-      </div>
+        <SearchBar onChange={this.searchEmojis}></SearchBar>
+        <EmojiDisplay matchedEmojis={this.state.matchedEmojis}></EmojiDisplay>
+      </div >
     );
+  }
+
+  searchEmojis = (event) => {
+    const searchTerm = event.target.value;
+    if (searchTerm) {
+      const matches = emojiList.filter(emoji => emoji.keywords.split(' ').includes(searchTerm))
+      const matchedEmojis = matches.map(emoji => emoji.symbol);
+      this.setState({
+        matchedEmojis: matchedEmojis
+      })
+    }
+    else {
+      const allEmojis = emojiList.map(emoji => emoji.symbol)
+      this.setState({
+        matchedEmojis: allEmojis
+      })
+    }
   }
 }
 
